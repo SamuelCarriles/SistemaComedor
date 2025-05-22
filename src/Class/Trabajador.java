@@ -10,8 +10,8 @@ public class Trabajador extends Usuario{
         this.cargoOcup = cargoOcup;
         this.cAlmuerzos=0;
     }
-    public Trabajador(String solapin, String carnetID, boolean marcado, String correo, String areaT, String cargoOcup) {
-        super(solapin, carnetID, marcado, correo);
+    public Trabajador(String solapin, String carnetID, String nombre,String correo, String areaT, String cargoOcup) {
+        super(solapin,carnetID, nombre, correo);
         this.areaT = areaT;
         this.cargoOcup = cargoOcup;
         this.cAlmuerzos=0;
