@@ -8,8 +8,8 @@ public class Profesor extends Trabajador{
         this.cargoOcup = cargoOcup;
         this.cAlmuerzos=0;
     }
-    public Profesor(String solapin, String carnetID, boolean marcado, String correo, String areaT, String cargoOcup) {
-        super(solapin, carnetID, marcado, correo,areaT,cargoOcup);
+    public Profesor(String solapin, String carnetID, String nombre, String correo, String areaT, String cargoOcup) {
+        super(solapin, carnetID, nombre, correo,areaT,cargoOcup);
         this.areaT = areaT;
         this.cargoOcup = cargoOcup;
         this.cAlmuerzos=0;

@@ -8,8 +8,8 @@ public class Estudiante extends Usuario{
         this.grupo = grupo;
     }
 
-    public Estudiante(String solapin, String carnetID, boolean marcado, String correo, String grupo) {
-        super(solapin, carnetID, marcado, correo);
+    public Estudiante(String solapin, String carnetID, String nombre, String correo, String grupo) {
+        super(solapin, carnetID, nombre, correo);
         this.grupo = grupo;
     }
 
