@@ -30,6 +30,25 @@ public class Sistema {
         return false;
     }
 
+    public boolean marcarUsuario(String solapin){
+        for(Usuario usuario: usuarios) {
+            if(usuario.getSolapin().equals(solapin)) {
+                usuario.marcado = true;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean desmarcarUsuarios(){
+        usuarios.forEach(usuario -> {
+            usuario.marcado=false;
+        });
+        for(Usuario u:usuarios){
+            if(u.marcado==true) return false;
+        }
+        return true;
+    }
     
 
 }
