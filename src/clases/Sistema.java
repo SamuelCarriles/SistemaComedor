@@ -3,13 +3,17 @@ import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 
 public final class Sistema implements Serializable {
     private static List<Usuario> usuarios = new ArrayList<>();
     private static Usuario operador=null;
     private static UsuarioRoot root = new UsuarioRoot("rooter","manager","rooter");
-
+    private static ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private Sistema() {
         throw new AssertionError("Esta clase no debe ser instanciada");
     }
@@ -19,7 +23,20 @@ public final class Sistema implements Serializable {
         if (archivo.exists()) {
             cargarDatos();
         }
+        scheduler.scheduleAtFixedRate(() -> {
+            CompletableFuture.runAsync(() -> {
+                try {
+                    exportarDatos();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        }, 0, 15, TimeUnit.MINUTES);
+
+        //Para detener el autoguardado se pone
+        //scheduler.shutdown();
     }
+
     public static void acceder(String nombre, String pass){
         for(Usuario u : usuarios){
             if((u.getNombre().equals(nombre))&&(u.getPassword().equals(pass))){
