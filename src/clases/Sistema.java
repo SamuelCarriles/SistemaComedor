@@ -154,11 +154,11 @@ public class Sistema implements Serializable {
         }
     }
 
-    public List<Usuario> getUsuarios(){
+    public static List<Usuario> getUsuarios(){
         return usuarios;
     }
 
-    public boolean cambiarPassword(Usuario usuario, String pass){
+    public static boolean cambiarPassword(Usuario usuario, String pass){
         for(Usuario u:usuarios){
             if(u.equals(usuario)){
                 u.setPassword(pass);
