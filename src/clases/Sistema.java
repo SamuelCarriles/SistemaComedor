@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Sistema implements Serializable {
+public final class Sistema implements Serializable {
     private static List<Usuario> usuarios = new ArrayList<>();
     private static Usuario operador=null;
     private static UsuarioRoot root = new UsuarioRoot("rooter","manager","rooter");
+
     private Sistema() {
         throw new AssertionError("Esta clase no debe ser instanciada");
     }
