@@ -10,7 +10,12 @@ public class Sistema implements Serializable{
 
     private Sistema() {throw new AssertionError("Esta clase no debe ser instanciada");}
 
-    public static void init() throws IOException, ClassNotFoundException {cargarDatos();}
+    public static void init() throws IOException, ClassNotFoundException {
+        File archivo = new File("database.bin");
+        if (archivo.exists()) {
+            cargarDatos();
+        }
+    }
 
     public static boolean addUsuario(Usuario usuario) {
         if (usuarios.size() < 1000) {
