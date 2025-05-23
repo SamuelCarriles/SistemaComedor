@@ -8,4 +8,6 @@ public class Profesor extends Trabajador{
         this.cargoOcup = cargoOcup;
         this.cAlmuerzos=0;
     }
+    
+
 }

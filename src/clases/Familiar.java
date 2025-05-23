@@ -8,4 +8,15 @@ public class Familiar extends Usuario{
         super(solapin, carnetID, nombre, correo);
         this.apartamento=apartamento;
     }
+
+
+    public String getApartamento() {
+        return apartamento;
+    }
+
+
+    public void setApartamento(String apartamento) {
+        this.apartamento = apartamento;
+    }
+    
 }
