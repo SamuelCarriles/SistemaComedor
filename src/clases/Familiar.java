@@ -1,4 +1,4 @@
-package Class;
+package clases;
 
 public class Familiar extends Usuario{
     private String apartamento;

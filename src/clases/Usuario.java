@@ -1,6 +1,6 @@
-package Class;
-
-public class Usuario {
+package clases;
+import java.io.Serializable;
+public class Usuario implements Serializable{
     private String solapin;
     private String carnetID;
     protected boolean marcado;

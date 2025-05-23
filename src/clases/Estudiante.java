@@ -1,4 +1,4 @@
-package Class;
+package clases;
 
 public class Estudiante extends Usuario{
     private String grupo;
