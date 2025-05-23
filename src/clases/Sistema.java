@@ -1,14 +1,15 @@
 package clases;
-
 import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Sistema implements Serializable{
+public class Sistema implements Serializable {
     private static List<Usuario> usuarios = new ArrayList<>();
 
-    private Sistema() {throw new AssertionError("Esta clase no debe ser instanciada");}
+    private Sistema() {
+        throw new AssertionError("Esta clase no debe ser instanciada");
+    }
 
     public static void init() throws IOException, ClassNotFoundException {
         File archivo = new File("database.bin");
@@ -36,9 +37,9 @@ public class Sistema implements Serializable{
         return false;
     }
 
-    public static boolean marcarUsuario(String solapin){
-        for(Usuario usuario: usuarios) {
-            if(usuario.getSolapin().equals(solapin)) {
+    public static boolean marcarUsuario(String solapin) {
+        for (Usuario usuario : usuarios) {
+            if (usuario.getSolapin().equals(solapin)) {
                 usuario.marcado = true;
                 return true;
             }
@@ -46,12 +47,13 @@ public class Sistema implements Serializable{
         return false;
     }
 
-    public static boolean desmarcarUsuarios(){
+    public static boolean desmarcarUsuarios() {
         usuarios.forEach(usuario -> {
-            usuario.marcado=false;
+            usuario.marcado = false;
         });
-        for(Usuario u:usuarios){
-            if(u.marcado==true) return false;
+        for (Usuario u : usuarios) {
+            if (u.marcado == true)
+                return false;
         }
         return true;
     }
@@ -64,30 +66,46 @@ public class Sistema implements Serializable{
             JOptionPane.showMessageDialog(
                     null,
                     "Error al guardar el archivo: " + e.getMessage(),
-                    "Error",                        // Título del diálogo
-                    JOptionPane.ERROR_MESSAGE       // Tipo de mensaje (ERROR_MESSAGE, WARNING_MESSAGE, etc.)
+                    "Error", // Título del diálogo
+                    JOptionPane.ERROR_MESSAGE // Tipo de mensaje (ERROR_MESSAGE, WARNING_MESSAGE, etc.)
             );
         }
     }
 
-    public static void cargarDatos() throws IOException,ClassNotFoundException{
+    public static void cargarDatos() throws IOException, ClassNotFoundException {
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream("database.bin"));
-            usuarios=(List<Usuario>) ois.readObject();
+            usuarios = (List<Usuario>) ois.readObject();
         } catch (IOException e) {
             // Diálogo de error con icono de alerta roja
             JOptionPane.showMessageDialog(
-                    null,                           // Componente padre (null = centro de la pantalla)
+                    null, // Componente padre (null = centro de la pantalla)
                     "Error al leer el archivo: " + e.getMessage(),
-                    "Error",                        // Título del diálogo
-                    JOptionPane.ERROR_MESSAGE       // Tipo de mensaje (ERROR_MESSAGE, WARNING_MESSAGE, etc.)
+                    "Error", // Título del diálogo
+                    JOptionPane.ERROR_MESSAGE // Tipo de mensaje (ERROR_MESSAGE, WARNING_MESSAGE, etc.)
             );
         } catch (ClassNotFoundException e) {
-            JOptionPane.showMessageDialog(null, "Clase no encontrada: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Clase no encontrada: " + e.getMessage(), "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
     public static void mostrarInfo() {
-        usuarios.forEach(u-> System.out.println(u.nombre));
+        usuarios.forEach(u -> System.out.println(u.nombre));
+    }
+
+    public void listaFaltantes() throws IOException {
+        String archivo = "lista de Faltantes.csv";
+        try (FileWriter editor = new FileWriter(archivo)) {
+            String linea;
+            editor.append("Nombre,Carnet de Identidad");
+            for (Usuario u : usuarios) {
+                if (!u.marcado) {
+                   linea=u.getNombre()+","+u.getCarnetID()+"\n";
+                    editor.append(linea);
+                    
+                }
+            }
+        }
     }
 }
