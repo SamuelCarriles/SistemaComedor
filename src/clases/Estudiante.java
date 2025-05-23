@@ -1,12 +1,7 @@
-package Class;
+package clases;
 
 public class Estudiante extends Usuario{
     private String grupo;
-
-    public Estudiante(String solapin, String carnetID, String grupo) {
-        super(solapin, carnetID);
-        this.grupo = grupo;
-    }
 
     public Estudiante(String solapin, String carnetID, String nombre, String correo, String grupo) {
         super(solapin, carnetID, nombre, correo);
