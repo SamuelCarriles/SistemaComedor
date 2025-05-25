@@ -1,5 +1,7 @@
 package clases;
 import java.io.Serializable;
+import java.util.Objects;
+
 public class Usuario implements Serializable{
     private String solapin;
     private String carnetID;
@@ -74,5 +76,16 @@ public class Usuario implements Serializable{
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Usuario usuario = (Usuario) o;
+        return isMarcado() == usuario.isMarcado() && Objects.equals(getSolapin(), usuario.getSolapin()) && Objects.equals(getCarnetID(), usuario.getCarnetID()) && Objects.equals(getCorreo(), usuario.getCorreo()) && Objects.equals(getRol(), usuario.getRol()) && Objects.equals(getPassword(), usuario.getPassword()) && Objects.equals(getNombre(), usuario.getNombre());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getSolapin(), getCarnetID(), isMarcado(), getCorreo(), getRol(), getPassword(), getNombre());
+    }
 }
