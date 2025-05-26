@@ -50,6 +50,7 @@ public final class Sistema implements Serializable {
                         "¡Bienvenido al sistema "+root.getNombre()+"!",
                         "Bienvenida al Sistema",
                         JOptionPane.INFORMATION_MESSAGE);
+                        operador= root;
                 return true;
             } else {
                 JOptionPane.showMessageDialog(
