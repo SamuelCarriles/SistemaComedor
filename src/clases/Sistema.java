@@ -1,4 +1,5 @@
 package clases;
+
 import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
@@ -14,11 +15,12 @@ public final class Sistema implements Serializable {
     private static Usuario operador=null;
     private static UsuarioRoot root = new UsuarioRoot("rooter","manager","rooter");
     private static ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
     private Sistema() {
         throw new AssertionError("Esta clase no debe ser instanciada");
     }
 
-    public static void init() throws IOException, ClassNotFoundException {
+    public static void iniciar() throws IOException, ClassNotFoundException {
         File archivo = new File("database.bin");
         if (archivo.exists()) {
             cargarDatos();
@@ -31,13 +33,33 @@ public final class Sistema implements Serializable {
                     throw new RuntimeException(e);
                 }
             });
-        }, 0, 15, TimeUnit.MINUTES);
+        }, 0, 1, TimeUnit.MINUTES);
 
         //Para detener el autoguardado se pone
         //scheduler.shutdown();
     }
 
-    public static void acceder(String nombre, String pass){
+    public static void detener() throws IOException {scheduler.shutdown();
+    exportarDatos();}
+
+    public static boolean acceder(String nombre, String pass){
+        if(root.getNombre().equals(nombre)){
+            if(root.getPassword().equals(pass)){
+                JOptionPane.showMessageDialog(
+                        null,
+                        "¡Bienvenido al sistema "+root.getNombre()+"!",
+                        "Bienvenida al Sistema",
+                        JOptionPane.INFORMATION_MESSAGE);
+                return true;
+            } else {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Contraseña inválida. Por favor, vuelva a intentarlo...",
+                        "Contraseña Inválida",
+                        JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
         for(Usuario u : usuarios){
             if((u.getNombre().equals(nombre))&&(u.getPassword().equals(pass))){
                 operador = u;
@@ -46,14 +68,14 @@ public final class Sistema implements Serializable {
                         "¡Bienvenido al sistema "+operador.getNombre()+"!",
                         "Bienvenida al Sistema",
                         JOptionPane.INFORMATION_MESSAGE);
-                return;
+                return true;
             } else if((u.getNombre().equals(nombre))&&(!u.getPassword().equals(pass))){
                 JOptionPane.showMessageDialog(
                         null,
                         "Contraseña inválida. Por favor, vuelva a intentarlo...",
                         "Contraseña Inválida",
                         JOptionPane.ERROR_MESSAGE);
-                return;
+                return false;
             }
         }
         JOptionPane.showMessageDialog(
@@ -61,6 +83,7 @@ public final class Sistema implements Serializable {
                 "El usuario "+nombre+" no existe.",
                 "Usuario No válido",
                 JOptionPane.ERROR_MESSAGE);
+    return false;
     }
 
     private static boolean isAdmin(Usuario user){
@@ -72,15 +95,22 @@ public final class Sistema implements Serializable {
     }
 
     public static boolean addUsuario(Usuario operador, Usuario usuario) {
-        if ((usuarios.size() < 1000)&&(!operador.getRol().equals("cliente"))) {
+        for(Usuario u : usuarios){
+            if(usuario.getSolapin().equals(u.getSolapin())||usuario.getCarnetID().equals(u.getCarnetID())||usuario.getNombre().equals(u.getNombre())) return false;
+        }
+        if ((usuarios.size() < 1000)) {
             usuarios.add(usuario);
             return true;
-        }
+        } else if(usuarios.size()==1000) JOptionPane.showMessageDialog(
+                null,
+                "No se pueden añadir más usuarios. El sistema solo soporta mil usuarios.",
+                "Operación Fallida",
+                JOptionPane.WARNING_MESSAGE
+        );
         return false;
     }
 
     public static boolean deleteUsuario(Usuario operador, String solapin) {
-        if(!operador.getRol().equals("cliente")){
             for (Usuario usuario : usuarios) {
                 if (usuario.getSolapin().equals(solapin)) {
                     usuarios.remove(usuario);
@@ -88,7 +118,6 @@ public final class Sistema implements Serializable {
                 }
 
             }
-        }
         return false;
     }
 
@@ -150,11 +179,6 @@ public final class Sistema implements Serializable {
         }
     }
 
-    //metodo temporal
-    public static void mostrarInfo() {
-        usuarios.forEach(u -> System.out.println(u.nombre));
-    }
-
     public static void listaFaltantes(Usuario operador) throws IOException {
         if(isAdmin(operador)){
             String archivo = "lista de Faltantes.csv";
@@ -184,5 +208,10 @@ public final class Sistema implements Serializable {
             }
         }
         return false;
+    }
+
+    public static Usuario getOperador(){
+        if(operador==null) return root;
+        else return operador;
     }
 }

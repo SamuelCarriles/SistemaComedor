@@ -18,7 +18,7 @@ public class Usuario implements Serializable{
         this.correo = correo;
         this.nombre=nombre;
         this.rol="cliente";
-        this.password = "";
+        this.password = carnetID;
     }
 
     public String getSolapin() {
