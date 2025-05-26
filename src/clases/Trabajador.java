@@ -12,19 +12,19 @@ public class Trabajador extends Usuario{
         this.cAlmuerzos=0;
     }
 
-    public String getAreaT() {
+    public String getArea() {
         return areaT;
     }
 
-    public void setAreaT(String areaT) {
+    public void setArea(String areaT) {
         this.areaT = areaT;
     }
 
-    public String getCargoOcup() {
+    public String getCargo() {
         return cargoOcup;
     }
 
-    public void setCargoOcup(String cargoOcup) {
+    public void setCargo(String cargoOcup) {
         this.cargoOcup = cargoOcup;
     }
 
